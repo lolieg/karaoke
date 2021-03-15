@@ -43,6 +43,7 @@ export default {
     }
   },
   async mounted() {
+    console.log(this.$axios.defaults.baseURL)
     const unformattedSongs = await this.$axios.$get(`/api/getSongs`)
     unformattedSongs.forEach((el) => {
       const [songName, artistName, length] = el.split(' - ', 3)
