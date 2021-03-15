@@ -1,4 +1,4 @@
-require('dotenv').config()
+const development = process.env.NODE_ENV !== 'production'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -16,12 +16,6 @@ export default {
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
   server: {
     port: 3001,
-  },
-  axios: {
-    baseURL:
-      process.env.NODE_ENV !== 'production'
-        ? 'http://localhost:3001'
-        : 'http://karaoke.speedy-schumachers.ml',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -50,18 +44,18 @@ export default {
   io: {
     sockets: [
       {
-        url:
-          process.env.NODE_ENV !== 'production'
-            ? 'http://localhost:3001'
-            : 'http://karaoke.speedy-schumachers.ml',
+        url: development
+          ? 'http://localhost:3001'
+          : 'http://karaoke.speedy-schumachers.ml',
         default: true,
       },
     ],
   },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
-
+  axios: {
+    baseURL: development
+      ? 'http://localhost:3001'
+      : 'http://karaoke.speedy-schumachers.ml',
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, ctx) {
