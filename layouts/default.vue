@@ -1,6 +1,5 @@
 <template>
   <div>
-    <script src="http://localhost:8098"></script>
     <nuxt></nuxt>
   </div>
 </template>
