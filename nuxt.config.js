@@ -16,6 +16,12 @@ export default {
   server: {
     port: 3001,
   },
+  axios: {
+    baseUrl:
+      process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:3001'
+        : 'http://karaoke.speedy-schumachers.ml',
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
