@@ -17,7 +17,7 @@ export default {
     port: 3001,
   },
   axios: {
-    baseUrl:
+    baseURL:
       process.env.NODE_ENV !== 'production'
         ? 'http://localhost:3001'
         : 'http://karaoke.speedy-schumachers.ml',
