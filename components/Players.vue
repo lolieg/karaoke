@@ -1,28 +1,29 @@
 <template>
   <div>
-    <h3>Players:</h3>
-    <ul>
-      <li v-for="player in room.players" :key="player.id">
-        <div class="card cards">
-          <div class="card-content">
-            <div class="columns">
-              <div class="column">{{ player.username }}</div>
-              <div v-if="isLeader && player.id !== socket.id" class="column">
-                <b-tooltip
-                  label="Kick"
-                  class="is-pulled-right"
-                  position="is-left"
-                  ><b-button
-                    icon-left="karate"
-                    @click="kick(player.id)"
-                  ></b-button
-                ></b-tooltip>
+    <b-field label="Players">
+      <ul>
+        <li v-for="player in room.players" :key="player.id">
+          <div class="card cards">
+            <div class="card-content">
+              <div class="columns">
+                <div class="column">{{ player.username }}</div>
+                <div v-if="isLeader && player.id !== socket.id" class="column">
+                  <b-tooltip
+                    label="Kick"
+                    class="is-pulled-right"
+                    position="is-left"
+                    ><b-button
+                      icon-left="karate"
+                      @click="kick(player.id)"
+                    ></b-button
+                  ></b-tooltip>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </b-field>
   </div>
 </template>
 <script>
@@ -61,5 +62,6 @@ export default {
 <style lang="scss">
 .cards {
   margin: 1vh 5vh 1vh 1vh;
+  width: 50%;
 }
 </style>

@@ -5,7 +5,7 @@
         v-if="!playing"
         @songSelected="songSelected"
       ></song-selector>
-      <b-button @click="stop()">Stop</b-button>
+      <b-button v-if="playing" @click="stop()">Stop</b-button>
     </div>
     <b-field label="Volume">
       <b-slider v-model="volume" @change="volumeChange()"></b-slider>
@@ -51,18 +51,6 @@ export default {
       playing: false,
     }
   },
-  watch: {
-    async songName() {
-      if (!this.playing) {
-        await this.play()
-      }
-    },
-    async artistName() {
-      if (!this.playing) {
-        await this.play()
-      }
-    },
-  },
   mounted() {
     setInterval(() => {
       if (sound) {
@@ -73,15 +61,46 @@ export default {
       this.songLength = data.songLength
       this.songName = data.songName
       this.artistName = data.artistName
+      let n = 3
+      const countdown = setInterval(() => {
+        this.$toasts.toastSuccess(`${n}`, this.$buefy)
+        n -= 1
+        if (n === 0) {
+          clearInterval(countdown)
+        }
+      }, 1000)
+      const checkIfStarted = setInterval(() => {
+        if (Date.now() >= data.startTime) {
+          this.play()
+          clearInterval(checkIfStarted)
+        }
+      }, 1)
+    })
+    this.socket.on('stop', (data) => {
+      if (sound) {
+        this.playing = false
+        sound.pause()
+        sound = null
+        this.progress = 0
+      }
     })
   },
   methods: {
-    songSelected(songName, artistName, length) {
-      this.songName = songName
-      this.artistName = artistName
-      this.songLength = length
+    async songSelected(songName, artistName, length) {
+      await new Promise((resolve) =>
+        this.socket.emit(
+          'play',
+          {
+            room: this.room.id,
+            songName,
+            artistName,
+            songLength: length,
+          },
+          (resp) => resolve(resp)
+        )
+      )
     },
-    async play() {
+    play() {
       if (!sound) {
         sound = new Audio(
           require(`../assets/songs/${this.songName} - ${
@@ -96,24 +115,17 @@ export default {
       sound.volume = this.volume / 100
       sound.play()
       this.playing = true
+    },
+    async stop() {
       await new Promise((resolve) =>
         this.socket.emit(
-          'play',
+          'stop',
           {
             room: this.room.id,
-            songName: this.songName,
-            artistName: this.artistName,
-            songLength: this.songLength,
           },
           (resp) => resolve(resp)
         )
       )
-    },
-    stop() {
-      if (sound) {
-        this.playing = false
-        this.sound = null
-      }
     },
     volumeChange() {
       if (sound) {

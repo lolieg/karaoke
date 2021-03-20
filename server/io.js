@@ -101,11 +101,15 @@ export default function (socket, io) {
       })
     },
     play(msg) {
-      io.to(msg.room).emit('play', {
+      io.in(msg.room).emit('play', {
+        startTime: Date.now() + 3000,
         songName: msg.songName,
         artistName: msg.artistName,
         songLength: msg.songLength,
       })
+    },
+    stop(msg) {
+      io.in(msg.room).emit('stop')
     },
     disconnect(msg) {
       for (const [key, value] of Object.entries(rooms)) {

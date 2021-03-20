@@ -3,7 +3,7 @@
     <section class="section">
       <div class="content"><h3>Create/Join Room</h3></div>
       <b-field label="Username">
-        <b-input v-model="username"></b-input>
+        <b-input v-model="username" maxlength="16"></b-input>
       </b-field>
       <b-field label="Join Code">
         <b-input v-model="code" placeholder="Needed to join"></b-input>
@@ -30,6 +30,9 @@ export default {
   },
   methods: {
     async createRoom() {
+      if (!this.validateUsername()) {
+        return
+      }
       const resp = await new Promise((resolve) =>
         this.socket.emit('createRoom', { username: this.username }, (resp) =>
           resolve(resp)
@@ -38,6 +41,9 @@ export default {
       this.$router.push('/rooms/' + resp.id)
     },
     async joinRoom() {
+      if (!this.validateUsername()) {
+        return
+      }
       if (this.isEmpty(this.code)) {
         return this.$toasts.toastDanger(
           'Please enter a code to join a room!',
@@ -58,6 +64,13 @@ export default {
         )
       }
       this.$router.replace('/rooms/' + resp.id)
+    },
+    validateUsername() {
+      if (this.isEmpty(this.username)) {
+        this.$toasts.toastDanger('Please enter a username!', this.$buefy)
+        return false
+      }
+      return true
     },
     isEmpty(string) {
       return string.length === 0 || !string.trim() || string.length < 2

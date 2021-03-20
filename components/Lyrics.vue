@@ -1,5 +1,5 @@
 <template>
-  <p v-if="!fetched">Waiting...</p>
+  <p v-if="!fetched || !playing">Waiting...</p>
   <div v-else class="lyrics content has-text-centered">
     <div v-for="line in lyrics" :key="lyrics.indexOf(line)">
       <h3 v-if="!line.lit && line.visible">{{ line.lyrics }}</h3>
@@ -45,6 +45,8 @@ export default {
           next -= 1
         }
         if (
+          line &&
+          array[next] &&
           line.seconds < this.progress &&
           array[next].seconds > this.progress
         ) {
