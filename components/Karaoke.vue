@@ -70,6 +70,20 @@ export default {
       this.songLength = data.songLength
       this.songName = data.songName
       this.artistName = data.artistName
+
+      if (!sound) {
+        sound = new Audio(
+          require(`../assets/songs/${this.songName} - ${
+            this.artistName
+          } - ${this.songLength.replace(':', '.')}.mp3`)
+        )
+        sound.addEventListener('ended', () => {
+          this.playing = false
+          this.sound = null
+        })
+        sound.volume = this.volume / 100
+      }
+
       let n = 3
       const countdown = setInterval(() => {
         this.$toasts.toastSuccess(`${n}`, this.$buefy)
@@ -80,7 +94,11 @@ export default {
       }, 1000)
       const checkIfStarted = setInterval(() => {
         if (Date.now() >= data.startTime) {
-          this.play()
+          if (sound) {
+            sound.play()
+            this.playing = true
+          }
+
           clearInterval(checkIfStarted)
         }
       }, 1)
@@ -108,22 +126,6 @@ export default {
           (resp) => resolve(resp)
         )
       )
-    },
-    play() {
-      if (!sound) {
-        sound = new Audio(
-          require(`../assets/songs/${this.songName} - ${
-            this.artistName
-          } - ${this.songLength.replace(':', '.')}.mp3`)
-        )
-        sound.addEventListener('ended', () => {
-          this.playing = false
-          this.sound = null
-        })
-      }
-      sound.volume = this.volume / 100
-      sound.play()
-      this.playing = true
     },
     async stop() {
       await new Promise((resolve) =>
