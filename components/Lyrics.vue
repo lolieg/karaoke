@@ -5,7 +5,7 @@
       <h3>LYRICS:</h3>
       <div v-for="line in lyrics" :key="lyrics.indexOf(line)">
         <h3 v-if="!line.lit && line.visible">{{ line.lyrics }}</h3>
-        <h3 v-else-if="line.visible">{{ line.lyrics }}</h3>
+        <h3 v-else-if="line.visible" style="color: green">{{ line.lyrics }}</h3>
       </div>
     </div>
   </section>
@@ -43,23 +43,34 @@ export default {
       }
       const lyrics = [...this.lines]
       lyrics.map((line, index, array) => {
-        let next = index + 3
-        if (next + 1 > array.length) {
-          next -= 1
+        let next = array[index + 3]
+        if (next === undefined) {
+          next = { seconds: 999 }
         }
-        if (
-          line &&
-          array[next] &&
-          line.seconds - 2 < this.progress &&
-          array[next].seconds - 2 > this.progress
-        ) {
-          line.lit = true
+        if (this.progress >= line.seconds - 1 && this.progress < next.seconds) {
           line.visible = true
         } else {
-          line.lit = false
           line.visible = false
         }
+
         return line
+        // let next = index + 3
+        // if (next + 1 > array.length) {
+        //   next -= 1
+        // }
+        // if (
+        //   line &&
+        //   array[next] &&
+        //   line.seconds - 2 < this.progress &&
+        //   array[next].seconds - 2 > this.progress
+        // ) {
+        //   line.lit = true
+        //   line.visible = true
+        // } else {
+        //   line.lit = false
+        //   line.visible = false
+        // }
+        // return line
       })
       return lyrics
     },
