@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
     <b-field label="Players">
       <ul>
         <li v-for="player in room.players" :key="player.id">
@@ -24,7 +24,7 @@
         </li>
       </ul>
     </b-field>
-  </div>
+  </section>
 </template>
 <script>
 export default {
@@ -61,7 +61,6 @@ export default {
 </script>
 <style lang="scss">
 .cards {
-  margin: 1vh 5vh 1vh 1vh;
   width: 50%;
 }
 </style>

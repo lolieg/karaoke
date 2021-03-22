@@ -37,12 +37,31 @@ body {
   background-color: #be9b7b;
   border-style: solid;
   border-color: black;
-  right: 20vh;
-  left: 20vh;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  margin: 0;
-  position: absolute;
+  margin-right: 20vh;
+  margin-left: 20vh;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  position: relative;
 }
+@import '~bulma/sass/utilities/_all';
+
+$input-background-color: #2e2e2e;
+$input-border-color: #220070;
+$input-focus-border-color: #00ed67;
+$input-color: white;
+
+$button-background-color: #2e2e2e;
+$button-color: white;
+$button-border-color: #220070;
+$button-focus-border-color: #00ed67;
+
+$table-color: white;
+$table-head-cell-color: white;
+$table-background-color: #2e2e2e;
+
+$card-color: white;
+$card-background-color: #2e2e2e;
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
 </style>

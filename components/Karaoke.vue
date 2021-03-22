@@ -5,11 +5,20 @@
         v-if="!playing"
         @songSelected="songSelected"
       ></song-selector>
-      <b-button v-if="playing" @click="stop()">Stop</b-button>
+      <section class="section is-centered">
+        <b-button v-if="playing" @click="stop()">Stop</b-button>
+      </section>
     </div>
-    <b-field label="Volume">
-      <b-slider v-model="volume" @change="volumeChange()"></b-slider>
-    </b-field>
+    <section class="section">
+      <b-field label="Volume">
+        <b-slider
+          v-model="volume"
+          type="is-link"
+          @change="volumeChange()"
+        ></b-slider>
+      </b-field>
+    </section>
+
     <lyrics
       :song-name="songName"
       :artist-name="artistName"

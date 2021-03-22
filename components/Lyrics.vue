@@ -1,11 +1,14 @@
 <template>
-  <p v-if="!fetched || !playing">Waiting...</p>
-  <div v-else class="lyrics content has-text-centered">
-    <div v-for="line in lyrics" :key="lyrics.indexOf(line)">
-      <h3 v-if="!line.lit && line.visible">{{ line.lyrics }}</h3>
-      <h3 v-else-if="line.visible" style="color: green">{{ line.lyrics }}</h3>
+  <section class="section">
+    <p v-if="!fetched || !playing">Waiting...</p>
+    <div v-else class="lyrics content has-text-centered">
+      <h3>LYRICS:</h3>
+      <div v-for="line in lyrics" :key="lyrics.indexOf(line)">
+        <h3 v-if="!line.lit && line.visible">{{ line.lyrics }}</h3>
+        <h3 v-else-if="line.visible">{{ line.lyrics }}</h3>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 <script>
 export default {
@@ -47,8 +50,8 @@ export default {
         if (
           line &&
           array[next] &&
-          line.seconds < this.progress &&
-          array[next].seconds > this.progress
+          line.seconds - 2 < this.progress &&
+          array[next].seconds - 2 > this.progress
         ) {
           line.lit = true
           line.visible = true

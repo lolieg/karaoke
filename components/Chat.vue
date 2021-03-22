@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
     <b-field label="Message">
       <b-input
         id="text"
@@ -9,14 +9,14 @@
         rows="5"
       ></b-input>
     </b-field>
-    <b-field label="Message">
+    <b-field label="Send Message">
       <b-input
         v-model="message"
         @keypress.native.enter="sendMessage()"
       ></b-input>
+      <b-button @click="sendMessage()">Send</b-button>
     </b-field>
-    <b-button @click="sendMessage()">Send</b-button>
-  </div>
+  </section>
 </template>
 <script>
 export default {
@@ -46,6 +46,9 @@ export default {
   },
   methods: {
     async sendMessage() {
+      if (this.isEmpty(this.message)) {
+        return
+      }
       await new Promise((resolve) =>
         this.socket.emit(
           'sendMessage',
@@ -55,11 +58,17 @@ export default {
       )
       this.message = ''
     },
+    isEmpty(string) {
+      return string.length === 0 || !string.trim() || string.length < 2
+    },
   },
 }
 </script>
 <style lang="scss">
-.textarea {
+#text {
   resize: none !important;
+  background-color: #2e2e2e;
+  color: white;
+  border-color: #220070;
 }
 </style>

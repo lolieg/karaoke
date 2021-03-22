@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-table :data="songs">
+  <section class="section">
+    <b-table :data="songs" :paginated="true" per-page="4">
       <b-table-column
         v-slot="props"
         field="song_name"
@@ -33,7 +33,7 @@
         ></b-table-column
       >
     </b-table>
-  </div>
+  </section>
 </template>
 <script>
 export default {

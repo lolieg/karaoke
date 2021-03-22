@@ -2,10 +2,18 @@
   <div>
     <p v-if="!fetched" class="has-text-centered">Loading...</p>
     <div v-else>
-      <b-field label="Invite Code">
-        <b-input readonly :value="room.inviteCode"></b-input>
-        <b-button icon-left="clipboard" @click="copyInviteCode()"></b-button>
-      </b-field>
+      <section class="section">
+        <b-field label="Invite Code">
+          <b-input
+            id="inviteCode"
+            readonly
+            :value="room.inviteCode"
+            @focus="copyInviteCode()"
+          ></b-input>
+          <b-button icon-left="clipboard" @click="copyInviteCode()"></b-button>
+        </b-field>
+      </section>
+
       <players :room="room" :socket="socket"></players>
       <chat :room="room" :socket="socket"></chat>
       <karaoke :room="room" :socket="socket" :is-leader="isLeader"></karaoke>
@@ -86,7 +94,8 @@ export default {
   },
   methods: {
     copyInviteCode() {
-      navigator.clipboard.writeText(this.room.inviteCode)
+      this.$el.querySelector('#inviteCode').select()
+      document.execCommand('copy')
       this.$toasts.toastSuccess('Copied to Clipboard', this.$buefy)
     },
   },
