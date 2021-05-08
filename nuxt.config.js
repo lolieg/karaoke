@@ -46,7 +46,7 @@ export default {
       {
         url: development
           ? 'http://localhost:3003'
-          : 'http://karaoke.marvinweber.me',
+          : 'https://karaoke.marvinweber.me',
         default: true,
       },
     ],
@@ -54,7 +54,7 @@ export default {
   axios: {
     baseURL: development
       ? 'http://localhost:3003'
-      : 'http://karaoke.marvinweber.me',
+      : 'https://karaoke.marvinweber.me',
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
