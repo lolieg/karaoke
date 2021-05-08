@@ -15,7 +15,7 @@ export default {
   },
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
   server: {
-    port: 3001,
+    port: 3003,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -45,16 +45,16 @@ export default {
     sockets: [
       {
         url: development
-          ? 'http://localhost:3001'
-          : 'http://karaoke.speedy-schumachers.ml',
+          ? 'http://localhost:3003'
+          : 'http://karaoke.marvinweber.me',
         default: true,
       },
     ],
   },
   axios: {
     baseURL: development
-      ? 'http://localhost:3001'
-      : 'http://karaoke.speedy-schumachers.ml',
+      ? 'http://localhost:3003'
+      : 'http://karaoke.marvinweber.me',
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
